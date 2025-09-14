@@ -26,6 +26,11 @@ async def handle_request(request: Request):
         'track.order - context: ongoing-tracking': track_order
     }
 
+    if intent == "track order - context: ongoing-tracking":
+        return JSONResponse(content={
+            "fulfillmentText": f"Received =={intent}== in the backend"
+        }
+
     return intent_handler_dict[intent](parameters, session_id)
 
 # venv\Scripts\activate
