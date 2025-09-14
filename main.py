@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
@@ -17,21 +18,21 @@ async def handle_request(request: Request):
     intent = payload['queryResult']['intent']['displayName']
     parameters = payload['queryResult']['parameters']
     output_contexts = payload['queryResult']['outputContexts']
-    session_id = generic_helper.extract_session_id(output_contexts[0]["name"])
+    # session_id = generic_helper.extract_session_id(output_contexts[0]["name"])
 
-    intent_handler_dict = {
-        'order.add - context: ongoing-order': add_to_order,
-        'order.remove - context: ongoing-order': remove_from_order,
-        'order.complete - context: ongoing-order': complete_order,
-        'track.order - context: ongoing-tracking': track_order
-    }
+    # intent_handler_dict = {
+    #     'order.add - context: ongoing-order': add_to_order,
+    #     'order.remove - context: ongoing-order': remove_from_order,
+    #     'order.complete - context: ongoing-order': complete_order,
+    #     'track.order - context: ongoing-tracking': track_order
+    # }
 
     if intent == "track.order - context: ongoing-tracking":
         return JSONResponse(content={
             "fulfillmentText": f"Received =={intent}== in the backend"
         })
 
-    return intent_handler_dict[intent](parameters, session_id)
+    # return intent_handler_dict[intent](parameters, session_id)
 
 # venv\Scripts\activate
 #  uvicorn main:app --reload
